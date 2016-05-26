@@ -14,37 +14,74 @@ uint32_t levenshteinDynamicProgramming(char* pSrc, uint32_t lenSrc, char* pDest,
 
 uint32_t levenshteinTwoRows(char* pSrc, uint32_t lenSrc, char* pDest, uint32_t lenDest);
 
+uint32_t levenshteinTwoRowsEx(char* pSrc, uint32_t lenSrc, char* pDest, uint32_t lenDest);
+
 int _tmain(uint32_t argc, _TCHAR* argv[])
 {
-    while (1)
+
+    if (1)
     {
-        char sourceStr[100] = { 0 };
-        char destStr[100] = { 0 };
-        printf("please enter zhe Source world(exit to end):");
-        scanf("%s", sourceStr);
-        if (strcmp(sourceStr, "exit") == 0)
+
+        while (1)
         {
-            break;
+            char sourceStr[100] = { 0 };
+            char destStr[100] = { 0 };
+            printf("please enter zhe Source world(exit to end):");
+            scanf("%s", sourceStr);
+            if (strcmp(sourceStr, "exit") == 0)
+            {
+                break;
+            }
+
+            printf("please enter zhe Dest world:");
+            scanf("%s", destStr);
+
+            uint32_t s_len = strlen(sourceStr);
+            uint32_t t_len = strlen(destStr);
+
+            char* s = sourceStr;
+            char* t = destStr;
+
+            uint32_t mindis = 0;
+            mindis = levenshteinDistance(s, s_len, t, t_len);
+            printf("使用递归方法实现的莱文斯坦距离算法计算结果：%3d\n\n", mindis);
+
+            mindis = levenshteinDynamicProgramming(s, s_len, t, t_len);
+            printf("使用自底向上方式的动态规划实现的莱文斯坦距离算法计算结果：%3d\n\n", mindis);
+
+            mindis = levenshteinTwoRows(s, s_len, t, t_len);
+            printf("使用矩阵两行迭代法实现的莱文斯坦距离算法计算结果：%3d\n", mindis);
+
+            printf("------------------------------------------------------\r\n");
+            mindis = levenshteinTwoRowsEx(s, s_len, t, t_len);
+            printf("使用矩阵两行迭代法实现的莱文斯坦距离算法计算结果(增强)：%3d\n", mindis);
         }
 
-        printf("please enter zhe Dest world:");
-        scanf("%s", destStr);
+    }
+    else
+    {
+        char s[] = "sitting";
+        char t[] = "kitten";
+        uint32_t s_len = 7;
+        uint32_t t_len = 6;
+        uint32_t mindis;
 
-        uint32_t s_len = strlen(sourceStr);
-        uint32_t t_len = strlen(destStr);
-
-        char* s = sourceStr;
-        char* t = destStr;
-
-        uint32_t mindis = 0;
+        printf("------------------------------------------------------\r\n");
         mindis = levenshteinDistance(s, s_len, t, t_len);
         printf("使用递归方法实现的莱文斯坦距离算法计算结果：%3d\n\n", mindis);
 
+        printf("------------------------------------------------------\r\n");
         mindis = levenshteinDynamicProgramming(s, s_len, t, t_len);
         printf("使用自底向上方式的动态规划实现的莱文斯坦距离算法计算结果：%3d\n\n", mindis);
 
+        printf("------------------------------------------------------\r\n");
         mindis = levenshteinTwoRows(s, s_len, t, t_len);
         printf("使用矩阵两行迭代法实现的莱文斯坦距离算法计算结果：%3d\n", mindis);
+
+        printf("------------------------------------------------------\r\n");
+        mindis = levenshteinTwoRowsEx(s, s_len, t, t_len);
+        printf("使用矩阵两行迭代法实现的莱文斯坦距离算法计算结果(增强)：%3d\n", mindis);
+
     }
 
     system("pause");
@@ -131,13 +168,13 @@ uint32_t levenshteinDynamicProgramming(char* pSrc, uint32_t lenSrc, char* pDest,
     {
         for (uint32_t i = 0; i < lenSrc; ++i)
         {
-            if (pSrc[i] == pDest[j])
+            //if (pSrc[i] == pDest[j])
+            //{
+            //    pArray[(i + 1) * width + (j + 1)] = pArray[i * width + j];
+            //}
+            //else
             {
-                pArray[(i + 1) * width + (j + 1)] = pArray[i * width + j];
-            }
-            else
-            {
-                pArray[(i + 1) *width + (j + 1)] = Min(pArray[i * width + j + 1], pArray[(i + 1) * width + j], pArray[i * width + j]) + 1;
+                pArray[(i + 1) *width + (j + 1)] = Min(pArray[i * width + j + 1] + 1, pArray[(i + 1) * width + j] + 1, pArray[i * width + j] + (pSrc[i] == pDest[j] ? 0 : 1));
             }
         }
     }
@@ -234,5 +271,73 @@ uint32_t levenshteinTwoRows(char* pSrc, uint32_t lenSrc, char* pDest, uint32_t l
     free(pArray);
 
     return result;
+}
+
+#define RC_MAX_STR_SIZE  13 
+uint32_t levenshteinTwoRowsEx(char* pSrc, uint32_t lenSrc, char* pDest, uint32_t lenDest)
+{
+    if (lenSrc == 0 || pSrc == NULL)
+    {
+        return lenDest;
+    }
+
+    if (lenDest == 0 || pDest == NULL)
+    {
+        return lenSrc;
+    }
+
+    uint32_t array[RC_MAX_STR_SIZE][RC_MAX_STR_SIZE] = { 0 };
+
+    if (lenSrc >= RC_MAX_STR_SIZE)
+    {
+        lenSrc = RC_MAX_STR_SIZE - 1;
+    }
+
+    if (lenDest >= RC_MAX_STR_SIZE)
+    {
+        lenDest = RC_MAX_STR_SIZE - 1;
+    }
+
+    for (uint32_t i = 0; i <= lenSrc; ++i)
+    {
+        array[i][0] = i;
+    }
+
+    for (uint32_t i = 0; i <= lenDest; ++i)
+    {
+        array[0][i] = i;
+    }
+
+    for (uint32_t i = 0; i < lenSrc; ++i)
+    {
+        for (uint32_t j = 0; j < lenSrc; ++j)
+        {
+            uint32_t coust = pSrc[i] == pDest[j] ? 0 : 1;
+            if (i >= 1 && j >= 1 && pSrc[i] == pDest[j - 1] && pSrc[i - 1] == pDest[j])
+            {
+                // 出现 hello 于 hlelo的情况
+                array[i + 1][j + 1] = Min(array[i][j + 1] + 1, array[i + 1][j] + 1, array[i - 1][j - 1] + coust);
+            }
+            else
+            {
+                array[i + 1][j + 1] = Min(array[i][j + 1] + 1, array[i + 1][j] + 1, array[i][j] + coust);
+            }
+        }
+    }
+
+    printf("结果矩阵\r\n");
+    for (uint32_t i = 0; i <= lenSrc; ++i)
+    {
+        for (uint32_t j = 0; j <= lenDest; ++j)
+        {
+            printf("%d ", array[i][j]);
+        }
+        printf("\r\n");
+    }
+
+    uint32_t result = array[lenSrc][lenDest];
+
+    return result;
+
 }
 
