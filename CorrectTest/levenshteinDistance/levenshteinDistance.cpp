@@ -310,7 +310,7 @@ uint32_t levenshteinTwoRowsEx(char* pSrc, uint32_t lenSrc, char* pDest, uint32_t
 
     for (uint32_t i = 0; i < lenSrc; ++i)
     {
-        for (uint32_t j = 0; j < lenSrc; ++j)
+        for (uint32_t j = 0; j < lenDest; ++j)
         {
             uint32_t coust = pSrc[i] == pDest[j] ? 0 : 1;
             if (i >= 1 && j >= 1 && pSrc[i] == pDest[j - 1] && pSrc[i - 1] == pDest[j])
