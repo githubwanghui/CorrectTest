@@ -1,4 +1,4 @@
-// levenshteinDistance.cpp : Defines the entry point for the console application.
+ï»¿// levenshteinDistance.cpp : Defines the entry point for the console application.
 //
 
 #include <tchar.h>
@@ -16,7 +16,6 @@ uint32_t levenshteinTwoRows(char* pSrc, uint32_t lenSrc, char* pDest, uint32_t l
 
 int _tmain(uint32_t argc, _TCHAR* argv[])
 {
-
     while (1)
     {
         char sourceStr[100] = { 0 };
@@ -39,15 +38,14 @@ int _tmain(uint32_t argc, _TCHAR* argv[])
 
         uint32_t mindis = 0;
         mindis = levenshteinDistance(s, s_len, t, t_len);
-        printf("Ê¹ÓÃµİ¹é·½·¨ÊµÏÖµÄÀ³ÎÄË¹Ì¹¾àÀëËã·¨¼ÆËã½á¹û£º%3d\n\n", mindis);
+        printf("ä½¿ç”¨é€’å½’æ–¹æ³•å®ç°çš„è±æ–‡æ–¯å¦è·ç¦»ç®—æ³•è®¡ç®—ç»“æœï¼š%3d\n\n", mindis);
 
         mindis = levenshteinDynamicProgramming(s, s_len, t, t_len);
-        printf("Ê¹ÓÃ×Ôµ×ÏòÉÏ·½Ê½µÄ¶¯Ì¬¹æ»®ÊµÏÖµÄÀ³ÎÄË¹Ì¹¾àÀëËã·¨¼ÆËã½á¹û£º%3d\n\n", mindis);
+        printf("ä½¿ç”¨è‡ªåº•å‘ä¸Šæ–¹å¼çš„åŠ¨æ€è§„åˆ’å®ç°çš„è±æ–‡æ–¯å¦è·ç¦»ç®—æ³•è®¡ç®—ç»“æœï¼š%3d\n\n", mindis);
 
         mindis = levenshteinTwoRows(s, s_len, t, t_len);
-        printf("Ê¹ÓÃ¾ØÕóÁ½ĞĞµü´ú·¨ÊµÏÖµÄÀ³ÎÄË¹Ì¹¾àÀëËã·¨¼ÆËã½á¹û£º%3d\n", mindis);
+        printf("ä½¿ç”¨çŸ©é˜µä¸¤è¡Œè¿­ä»£æ³•å®ç°çš„è±æ–‡æ–¯å¦è·ç¦»ç®—æ³•è®¡ç®—ç»“æœï¼š%3d\n", mindis);
     }
-  
 
     system("pause");
 	return 0;
@@ -70,7 +68,7 @@ T Min(T x, T y, T z)
     }
 }
 
-// µİ¹éÊµÏÖ
+// é€’å½’å®ç°
 uint32_t levenshteinDistance(char* pSrc, uint32_t lenSrc, char* pDest, uint32_t lenDest)
 {
     if (lenSrc == 0)
@@ -91,7 +89,7 @@ uint32_t levenshteinDistance(char* pSrc, uint32_t lenSrc, char* pDest, uint32_t 
 
 }
 
-// ¾ØÕó¶¯Ì¬¹æ»®ÊµÏÖ
+// çŸ©é˜µåŠ¨æ€è§„åˆ’å®ç°
 uint32_t levenshteinDynamicProgramming(char* pSrc, uint32_t lenSrc, char* pDest, uint32_t lenDest)
 {
     if (lenSrc == 0 || pSrc == NULL)
@@ -116,14 +114,14 @@ uint32_t levenshteinDynamicProgramming(char* pSrc, uint32_t lenSrc, char* pDest,
 
     memset(pArray, 0, arraySize);
 
-    // ³õÊ¼»¯µÚÒ»ÁĞ Ïàµ±ÓÚÔ´×Ö·û´®ÒÀ´ÎÉ¾³ıµÃµ½¿Õ×Ö·ûÒª¾­ÀúµÄ²½Êı
+    // åˆå§‹åŒ–ç¬¬ä¸€åˆ— ç›¸å½“äºæºå­—ç¬¦ä¸²ä¾æ¬¡åˆ é™¤å¾—åˆ°ç©ºå­—ç¬¦è¦ç»å†çš„æ­¥æ•°
     for (uint32_t i = 0; i < hight; ++i)
     {
         pArray[i * width] = i;
 
     }
 
-    // ³õÊ¼»¯µÚÒ»ĞĞ Ïàµ±ÓÚÔ´×Ö·û´®´Ó¿ÕÒÀ´Îµ½Ä¿±ê×Ö·û´®Òª¾­ÀúµÄ²½Êı
+    // åˆå§‹åŒ–ç¬¬ä¸€è¡Œ ç›¸å½“äºæºå­—ç¬¦ä¸²ä»ç©ºä¾æ¬¡åˆ°ç›®æ ‡å­—ç¬¦ä¸²è¦ç»å†çš„æ­¥æ•°
     for (uint32_t i = 0; i < width; ++i)
     {
         pArray[i] = i;
@@ -144,8 +142,8 @@ uint32_t levenshteinDynamicProgramming(char* pSrc, uint32_t lenSrc, char* pDest,
         }
     }
 
-    // ´òÓ¡¾ØÕó
-    printf("½á¹û¾ØÕóÎª£º\r\n");
+    // æ‰“å°çŸ©é˜µ
+    printf("ç»“æœçŸ©é˜µä¸ºï¼š\r\n");
     for (uint32_t i = 0; i < hight; ++i)
     {
         for (uint32_t j = 0; j < width; ++j)
@@ -162,7 +160,7 @@ uint32_t levenshteinDynamicProgramming(char* pSrc, uint32_t lenSrc, char* pDest,
     return result;
 }
 
-// Ë«Êı×éÄ£Äâ¾ØÕóÊµÏÖ
+// åŒæ•°ç»„æ¨¡æ‹ŸçŸ©é˜µå®ç°
 uint32_t levenshteinTwoRows(char* pSrc, uint32_t lenSrc, char* pDest, uint32_t lenDest)
 {
     if (lenSrc == 0 || pSrc == NULL)
@@ -187,13 +185,13 @@ uint32_t levenshteinTwoRows(char* pSrc, uint32_t lenSrc, char* pDest, uint32_t l
 
     memset(pArray, 0, arraySize);
 
-    // Ïà¶ÔÔ´×Ö·û´®´Ó¿ÕÔö¼Óµ½Ä¿±ê×Ö·û´®
+    // ç›¸å¯¹æºå­—ç¬¦ä¸²ä»ç©ºå¢åŠ åˆ°ç›®æ ‡å­—ç¬¦ä¸²
     for (uint32_t i = 0; i < width; ++i)
     {
         pArray[i] = i;
     }
 
-    printf("¹¹½¨µÄÖĞ¼ä¾ØÕóÎª:\r\n");
+    printf("æ„å»ºçš„ä¸­é—´çŸ©é˜µä¸º:\r\n");
     for (uint32_t i = 0; i < width; ++i)
     {
         printf("%d ", pArray[i]);
@@ -215,7 +213,7 @@ uint32_t levenshteinTwoRows(char* pSrc, uint32_t lenSrc, char* pDest, uint32_t l
             }
         }
 
-        // °ÑµÚ2¸öÊı×é×÷ÎªµÚÒ»¸öÊı×é
+        // æŠŠç¬¬2ä¸ªæ•°ç»„ä½œä¸ºç¬¬ä¸€ä¸ªæ•°ç»„
         for (uint32_t t = 0; t < width; ++t)
         {
             pArray[t] = pArray[width + t];
